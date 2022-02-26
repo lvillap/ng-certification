@@ -1,0 +1,7 @@
+<div class="container-fluid">
+    <app-zip-code-form (addedZipCode)="service.registerZipCode($event)"></app-zip-code-form>
+    {{ service.error | async | json }}
+    <app-zip-code-weather-card [weatherInfo]="zipCodeWeatherInfo" *ngFor="let zipCodeWeatherInfo of weatherInfo"
+        (removeZipCode)="service.removeZipCode(zipCodeWeatherInfo.zipCode)">
+    </app-zip-code-weather-card>
+</div>
