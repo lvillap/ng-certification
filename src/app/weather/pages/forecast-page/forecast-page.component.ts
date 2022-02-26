@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ForecastPageService } from './forecast-page.service';
 import { ZipCode } from '../../model/zipcode.model';
 import { WeatherForecast } from '../../model/weather-forecast.model';
 import { DatesService } from '../../../shared/dates/dates.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-forecast-page',
   templateUrl: './forecast-page.component.html',
   styleUrls: ['./forecast-page.component.css']
 })
-export class ForecastPageComponent implements OnInit {
+export class ForecastPageComponent implements OnInit, OnDestroy {
 
   forecast: WeatherForecast | undefined;
+  changesInForecastSubscription: Subscription;
 
   constructor(private activatedRoute: ActivatedRoute, private service: ForecastPageService, 
     private router: Router, private datesService: DatesService) { }
@@ -27,8 +29,12 @@ export class ForecastPageComponent implements OnInit {
     this.router.navigateByUrl("");
   }
 
+  ngOnDestroy(): void {
+    if (this.changesInForecastSubscription) this.changesInForecastSubscription.unsubscribe();
+  }
+
   private subscribeToChangesInForecast() {
-    this.service.weatherForecast.subscribe(forecast => this.forecast = this.filterRepeatedDays(forecast));
+    this.changesInForecastSubscription = this.service.weatherForecast.subscribe(forecast => this.forecast = this.filterRepeatedDays(forecast));
   }
 
   private filterRepeatedDays(forecast: WeatherForecast): WeatherForecast {
