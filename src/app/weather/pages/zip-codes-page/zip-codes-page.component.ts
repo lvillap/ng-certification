@@ -8,20 +8,11 @@ import { Subscription } from 'rxjs';
   templateUrl: './zip-codes-page.component.html',
   styleUrls: ['./zip-codes-page.component.css']
 })
-export class ZipCodesPageComponent implements OnInit, OnDestroy {
-
-  weatherInfo: WeatherInfo[] = [];
-  subscriptions: Subscription[] = [];
+export class ZipCodesPageComponent implements OnInit {
 
   constructor(public service: ZipCodesPageService) { }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.service.zipCodesWeatherInfo.subscribe(weatherInfo =>
-      this.weatherInfo = weatherInfo));
     this.service.init();
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }

@@ -28,6 +28,7 @@ export class ZipCodesPageService {
       this.addWeatherFor(new ZipCode({ value: zipCode })));
   }
 
+  // FIXME No meter el zip code si no hay datos en openWeatherMap
   registerZipCode(zipcode: ZipCode) {
     if (this.zipCodes.alreadyRegistered(zipcode)) return;
     this.zipCodes.add(zipcode);
