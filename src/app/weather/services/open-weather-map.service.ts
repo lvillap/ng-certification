@@ -15,6 +15,10 @@ export class OpenWeatherMapService {
 
   private static readonly BASE_URL = 'https://api.openweathermap.org/data/2.5/';
   private static readonly API_KEY = '5a4b2d457ecbef9eb2a71e480b947604';
+  private static readonly DEFAULT_PARAMS = {
+    appid: OpenWeatherMapService.API_KEY,
+    units: 'metric'
+  };
 
   private static readonly NAME_TO_CONDITION_MAP = {
     sunny: Condition.sun,
@@ -26,22 +30,20 @@ export class OpenWeatherMapService {
 
   constructor(private http: HttpClient) { }
 
-  loadWeatherInfoFor(zipcode: ZipCode): Observable<WeatherInfo> {
+  loadWeatherInfoFor(zipCode: ZipCode): Observable<WeatherInfo> {
     return this.http.get<any[]>(`${OpenWeatherMapService.BASE_URL}weather`, {
       params: {
-        appid: OpenWeatherMapService.API_KEY,
-        zip: `${zipcode.value},es`,
-        units: 'metric'
+        ...OpenWeatherMapService.DEFAULT_PARAMS,
+        zip: `${zipCode.value},es`,
       }
-    }).pipe(map(data => this.converToWeatherInfo(zipcode, data)));
+    }).pipe(map(data => this.converToWeatherInfo(zipCode, data)));
   }
 
   getForecastFor(zipCode: ZipCode): Observable<WeatherForecast> {
     return this.http.get<any>(`${OpenWeatherMapService.BASE_URL}forecast`, {
       params: {
-        appid: OpenWeatherMapService.API_KEY,
+        ...OpenWeatherMapService.DEFAULT_PARAMS,
         zip: `${zipCode.value},es`,
-        units: 'metric'
       }
     }).pipe(map(data => this.converListOfWeatherForecasts(zipCode, data)));
   }
@@ -53,10 +55,14 @@ export class OpenWeatherMapService {
     return new WeatherForecast(cityName, forecasts);
   }
   private convertOneForecast(oneForecast: any): DayForecast {
-    const date = new Date(oneForecast.dt);
+    const date = this.converDate(oneForecast.dt);
     const temperatures = this.converMainToTemperatures(oneForecast.main);
     const condition = this.convertArrayOfWeatherToCondition(oneForecast.weather);
     return new DayForecast(date, temperatures, condition);
+  }
+  
+  private converDate(dt: any) {
+    return new Date(dt * 1000);
   }
 
   private converToWeatherInfo(zipcode: ZipCode, weatherData: any): any {

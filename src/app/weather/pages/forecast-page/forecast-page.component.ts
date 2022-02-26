@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ForecastPageService } from './forecast-page.service';
 import { ZipCode } from '../../model/zipcode.model';
 import { WeatherForecast } from '../../model/weather-forecast.model';
+import { DatesService } from '../../../shared/dates/dates.service';
 
 @Component({
   selector: 'app-forecast-page',
@@ -13,7 +14,8 @@ export class ForecastPageComponent implements OnInit {
 
   forecast: WeatherForecast | undefined;
 
-  constructor(private activatedRoute: ActivatedRoute, private service: ForecastPageService, private router: Router) { }
+  constructor(private activatedRoute: ActivatedRoute, private service: ForecastPageService, 
+    private router: Router, private datesService: DatesService) { }
 
   ngOnInit(): void {
     const currentZipCode = this.getZipCodeToShow();
@@ -26,7 +28,20 @@ export class ForecastPageComponent implements OnInit {
   }
 
   private subscribeToChangesInForecast() {
-    this.service.weatherForecast.subscribe(forecast => this.forecast = forecast);
+    this.service.weatherForecast.subscribe(forecast => this.forecast = this.filterRepeatedDays(forecast));
+  }
+
+  private filterRepeatedDays(forecast: WeatherForecast): WeatherForecast {
+    const filteredList = [];
+    let previousDay = undefined;
+    forecast.forecasts.forEach(forecast => {
+      if (previousDay !== undefined && this.datesService.sameDay(previousDay, forecast.day)) {
+        return;
+      }
+      filteredList.push(forecast);
+      previousDay = forecast.day;
+    });
+    return new WeatherForecast(forecast.cityName, filteredList);
   }
 
   private getZipCodeToShow(): string {

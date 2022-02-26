@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ZipCode } from 'app/weather/model/zipcode.model';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { OpenWeatherMapService } from '../../services/open-weather-map.service';
 import { WeatherForecast } from '../../model/weather-forecast.model';
+import { ZipCode } from '../../model/zipcode.model';
 
 @Injectable({
   providedIn: 'root'

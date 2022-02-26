@@ -1,7 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { WeatherInfo } from 'app/weather/model/weather-info.model';
-import { ZipCodesPageService } from 'app/weather/pages/zip-codes-page/zip-codes-page.service';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { ZipCodesPageService } from './zip-codes-page.service';
 
 @Component({
   selector: 'app-zip-codes-page',

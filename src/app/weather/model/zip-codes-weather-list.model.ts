@@ -7,6 +7,10 @@ export class ZipCodesWeatherList {
     private zipCodesWeatherInfoSubject = new BehaviorSubject<WeatherInfo[]>([]);
     zipCodesWeatherInfo = this.zipCodesWeatherInfoSubject.asObservable();
 
+    clear() {
+        this.zipCodesWeatherInfoSubject.next([]);
+    }
+
     asObservable(): Observable<WeatherInfo[]> {
         return this.zipCodesWeatherInfo;
     }

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { Condition } from 'app/weather/model/condition.model';
 import { WeatherInfo } from '../../model/weather-info.model';
 import { ZipCode } from '../../model/zipcode.model';
 import { WeatherService } from '../../services/weather.service';
+import { Condition } from '../../model/condition.model';
 
 @Component({
   selector: 'app-zip-code-weather-card',
