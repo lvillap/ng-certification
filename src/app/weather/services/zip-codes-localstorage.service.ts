@@ -6,27 +6,35 @@ import { ZipCode } from '../model/zipcode.model';
 })
 export class ZipCodesLocalstorageService {
 
-  constructor() { }
+  currentZipCodes: string[];
 
-  add(zipcode: ZipCode) {
-    if (this.alreadyRegistered(zipcode)) return;
-    localStorage.setItem('zip-codes', JSON.stringify([...this.getCurrentZipCodes(), zipcode.value]));
-  }
-
-  alreadyRegistered(zipcode: ZipCode) {
-    return this.getCurrentZipCodes().indexOf(zipcode.value) !== -1;
-  }
-  getCurrentZipCodes(): string[] {
+  constructor() {
     const localZipCodesData = localStorage.getItem("zip-codes");
-    if (!localZipCodesData) return [];
-    return JSON.parse(localZipCodesData) as string[]
+    this.currentZipCodes = !localZipCodesData ? [] : JSON.parse(localZipCodesData) as string[];
   }
 
-  remove(zipcode: ZipCode) {
-    const newZipCodes = this.getCurrentZipCodes();
-    const indexOfZipCode = newZipCodes.indexOf(zipcode.value);
+  add(zipcode: ZipCode): void {
+    if (this.alreadyRegistered(zipcode)) return;
+    this.currentZipCodes.push(zipcode.value);
+    this.persistToStore();
+  }
+
+  alreadyRegistered(zipcode: ZipCode): boolean {
+    return this.currentZipCodes.indexOf(zipcode.value) !== -1;
+  }
+
+  remove(zipcode: ZipCode): void {
+    const indexOfZipCode = this.currentZipCodes.indexOf(zipcode.value);
     if (indexOfZipCode === -1) return;
-    newZipCodes.splice(indexOfZipCode, 1);
-    localStorage.setItem('zip-codes', JSON.stringify(newZipCodes));
+    this.currentZipCodes.splice(indexOfZipCode, 1);
+    this.persistToStore();
+  }
+
+  getCurrentZipCodes(): string[] {
+    return [ ...this.currentZipCodes ];
+  }
+
+  private persistToStore() {
+    localStorage.setItem('zip-codes', JSON.stringify(this.currentZipCodes));
   }
 }
