@@ -1,0 +1,7 @@
+<li class="list-group-item">
+    {{ dayForecast.day | date: 'dddd, MMM, dd' }}:
+    {{ weatherService.getConditionText(dayForecast.currentCondition) }}
+    - Min: {{ dayForecast.temperatures.min }}ºC
+    - Max: {{ dayForecast.temperatures.max }}ºC
+    <img class="icon" [src]="weatherService.getWheatherImage(dayForecast.currentCondition)">
+</li>

@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Condition } from 'app/weather/model/condition.model';
 import { WeatherInfo } from '../../model/weather-info.model';
 import { ZipCode } from '../../model/zipcode.model';
+import { WeatherService } from '../../services/weather.service';
 
 @Component({
   selector: 'app-zip-code-weather-card',
@@ -13,14 +14,9 @@ export class ZipCodeWeatherCardComponent implements OnInit {
   @Input() weatherInfo: WeatherInfo | undefined;
   @Output() removeZipCode = new EventEmitter<ZipCode>();
 
-  constructor() { }
+  constructor(public weatherService: WeatherService) { }
 
   ngOnInit(): void {
-  }
-
-  getWheatherImage(): string {
-    const conditionName = Condition[this.weatherInfo.currentCondition];
-    return `https://www.angulartraining.com/images/weather/${conditionName}.png`
   }
 
   getCurrentConditionText(): string {
@@ -31,4 +27,7 @@ export class ZipCodeWeatherCardComponent implements OnInit {
     this.removeZipCode.emit(this.weatherInfo?.zipCode);
   }
 
+  getForecastUrlFor(zipCode: ZipCode): string {
+    return `/forecast/${zipCode.value}`;
+  }
 }

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { DayForecast } from '../../model/dayForecast.model';
+import { WeatherService } from '../../services/weather.service';
 
 @Component({
   selector: 'app-forecast-card',
@@ -7,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ForecastCardComponent implements OnInit {
 
-  constructor() { }
+  @Input() dayForecast: DayForecast;
+
+  constructor(public weatherService: WeatherService) { }
 
   ngOnInit(): void {
   }

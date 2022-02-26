@@ -1,7 +1,9 @@
 <div class="container-fluid">
     <app-zip-code-form (addedZipCode)="service.registerZipCode($event)"></app-zip-code-form>
     <div class="error well" *ngIf="service.error | async">{{ service.error | async }}</div>
-    <app-zip-code-weather-card [weatherInfo]="zipCodeWeatherInfo" *ngFor="let zipCodeWeatherInfo of service.zipCodesWeatherInfo | async"
+    <app-zip-code-weather-card 
+        [weatherInfo]="zipCodeWeatherInfo" 
+        *ngFor="let zipCodeWeatherInfo of service.zipCodesWeatherInfo | async"
         (removeZipCode)="service.removeZipCode(zipCodeWeatherInfo.zipCode)">
     </app-zip-code-weather-card>
 </div>

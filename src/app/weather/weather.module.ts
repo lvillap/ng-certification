@@ -7,6 +7,7 @@ import { ForecastCardComponent } from './components/forecast-card/forecast-card.
 import { ZipCodesPageComponent } from './pages/zip-codes-page/zip-codes-page.component';
 import { ForecastPageComponent } from './pages/forecast-page/forecast-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Weather2RoutingModule as WeatherRoutingModule } from './weather-routing.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    WeatherRoutingModule
   ],
   exports: [
     ZipCodesPageComponent,

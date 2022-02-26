@@ -15,11 +15,11 @@ export class ZipCodeFormComponent implements OnInit {
   form: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    this.form = this.createForm();
+    this.createForm();
   }
 
-  createForm(): FormGroup {
-    return this.fb.group({
+  createForm(): void {
+    this.form = this.fb.group({
       zipCode: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]]
     });
   }
@@ -30,7 +30,10 @@ export class ZipCodeFormComponent implements OnInit {
   submitZipCode(): void {
     const data = this.form.value;
     this.addedZipCode.emit(new ZipCode({ value: data.zipCode }));
-    this.form.reset({ zipCode: '' });
+    this.cleanForm();
   }
 
+  private cleanForm() {
+    this.form.reset({ zipCode: '' });
+  }
 }

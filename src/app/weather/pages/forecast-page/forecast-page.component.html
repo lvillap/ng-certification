@@ -1,1 +1,13 @@
-<p>forecast-page works!</p>
+<div class="container-fluid" *ngIf="forecast">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">5-day forecast for {{ forecast.cityName }}</h3>
+
+        </div>
+        <ul class="list-group">
+            <app-forecast-card [dayForecast]="dayForecast" *ngFor="let dayForecast of forecast.forecasts | slice : 0 : 5">
+            </app-forecast-card>
+        </ul>
+    </div>
+    <button class="btn btn-success" tabindex="0" id="mainPageBtn" (click)="navigateToZipCodes()">&lt; Back to main page</button>
+</div>
