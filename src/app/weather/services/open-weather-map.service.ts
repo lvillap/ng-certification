@@ -16,7 +16,7 @@ export class OpenWeatherMapService {
 
   constructor(private http: HttpClient) { }
 
-  loadWeatherInfoForZipCode(zipcode: ZipCode): Observable<WeatherInfo> {
+  loadWeatherInfoFor(zipcode: ZipCode): Observable<WeatherInfo> {
     return this.http.get<any[]>(`${OpenWeatherMapService.BASE_URL}`, {
       params: {
         appid: OpenWeatherMapService.API_KEY,

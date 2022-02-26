@@ -8,12 +8,12 @@ export class ZipCodesLocalstorageService {
 
   constructor() { }
 
-  addNewZipCodeToStore(zipcode: ZipCode) {
-    if (this.zipCodeAlreadyRegistered(zipcode)) return;
+  add(zipcode: ZipCode) {
+    if (this.alreadyRegistered(zipcode)) return;
     localStorage.setItem('zip-codes', JSON.stringify([...this.getCurrentZipCodes(), zipcode.value]));
   }
 
-  zipCodeAlreadyRegistered(zipcode: ZipCode) {
+  alreadyRegistered(zipcode: ZipCode) {
     return this.getCurrentZipCodes().indexOf(zipcode.value) !== -1;
   }
   getCurrentZipCodes(): string[] {
@@ -22,7 +22,7 @@ export class ZipCodesLocalstorageService {
     return JSON.parse(localZipCodesData) as string[]
   }
 
-  removeZipCode(zipcode: ZipCode) {
+  remove(zipcode: ZipCode) {
     const newZipCodes = this.getCurrentZipCodes();
     const indexOfZipCode = newZipCodes.indexOf(zipcode.value);
     if (indexOfZipCode === -1) return;

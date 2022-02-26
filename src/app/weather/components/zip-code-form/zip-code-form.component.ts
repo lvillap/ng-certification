@@ -1,7 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ZipCode } from '../../model/zipcode.model';
-import { zip } from 'rxjs';
+
+// TODO Pintar errores en formulario
 
 @Component({
   selector: 'app-zip-code-form',
