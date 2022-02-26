@@ -6,6 +6,12 @@ import { ZipCodesWeatherList } from '../../model/zip-codes-weather-list.model';
 import { OpenWeatherMapService } from '../../services/open-weather-map.service';
 import { WeatherInfo } from '../../model/weather-info.model';
 
+/**
+ * Service class that contains the business logic of Zip codes page
+ *
+ * @export
+ * @class ZipCodesPageService
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -19,18 +25,33 @@ export class ZipCodesPageService {
 
   constructor(private openWeatherMapService: OpenWeatherMapService, private zipCodes: ZipCodesLocalstorageService) { }
 
+  /**
+   * Initializates the service
+   *
+   * @memberof ZipCodesPageService
+   */
   init(): void {
     this.loadZipCodesAnRetrieveWeather();
   }
 
+  /**
+   * Loads the zip codes from the storage and retrieves the weather for each zip code
+   *
+   * @memberof ZipCodesPageService
+   */
   loadZipCodesAnRetrieveWeather() {
     this.weatherList.clear();
     const allWeatherInfoObservables = this.createObservablesToLoadAllZipCodesWheather();
     forkJoin(allWeatherInfoObservables).subscribe();
   }
 
-  // FIXME No meter el zip code si no hay datos en openWeatherMap
-  registerZipCode(zipcode: ZipCode) {
+  /**
+   * Saves to the storage the specified zip code (if not already present) and retrieves the weather information
+   *
+   * @param {ZipCode} zipcode to register
+   * @memberof ZipCodesPageService
+   */
+  registerZipCode(zipcode: ZipCode): void {
     if (this.zipCodes.alreadyRegistered(zipcode)) return;
     this.addWeatherFor(zipcode).subscribe(weatherInfo => {
       if (!weatherInfo) return;
@@ -38,16 +59,37 @@ export class ZipCodesPageService {
     });
   }
 
+  /**
+   * Remover a zip code from the storage if it exists, and removes the correspondant weather information
+   *
+   * @param {ZipCode} zipcode to remove
+   * @memberof ZipCodesPageService
+   */
   removeZipCode(zipcode: ZipCode): void {
     this.zipCodes.remove(zipcode);
     this.weatherList.remove(zipcode);
   }
 
-  private createObservablesToLoadAllZipCodesWheather() {
+  /**
+   * Generates an array of all the observables needed to retrieve all the weather information for all zip codes
+   *
+   * @private
+   * @return {*}  {Observable<WeatherInfo>[]} list of observables
+   * @memberof ZipCodesPageService
+   */
+  private createObservablesToLoadAllZipCodesWheather(): Observable<WeatherInfo>[] {
     return this.zipCodes.getCurrentZipCodes().map(
       zipCode => this.addWeatherFor(new ZipCode({ value: zipCode })));
   }
 
+  /**
+   * Gets an observable to the operation that adds the weather for a zip code
+   *
+   * @private
+   * @param {ZipCode} zipcode to retrieve weather information to
+   * @return {*}  {Observable<WeatherInfo>} observable to the operation of retrieval
+   * @memberof ZipCodesPageService
+   */
   private addWeatherFor(zipcode: ZipCode): Observable<WeatherInfo> {
     return this.openWeatherMapService.loadWeatherInfoFor(zipcode).pipe(catchError(error => {
       this.sendErrorHasOccurred(error);
@@ -62,15 +104,36 @@ export class ZipCodesPageService {
       );
   }
 
-  private sendErrorHasOccurred(error: any) {
+  /**
+   * Sends the error message to be shown
+   *
+   * @private
+   * @param {*} error to show
+   * @memberof ZipCodesPageService
+   */
+  private sendErrorHasOccurred(error: any): void {
     this.errorSubject.next(this.getErrorMessage(error));
   }
 
-  private cleanError() {
+  /**
+   * Cleans the error to show
+   *
+   * @private
+   * @memberof ZipCodesPageService
+   */
+  private cleanError(): void {
     this.errorSubject.next(undefined);
   }
 
-  private getErrorMessage(error: any) {
+  /**
+   * Retrieves the message from an error
+   *
+   * @private
+   * @param {*} error object to retrieve the message from
+   * @return {*}  {string} message of the error
+   * @memberof ZipCodesPageService
+   */
+  private getErrorMessage(error: any): string {
     return error.error instanceof ErrorEvent ?
       `Error: ${error.error.message}` : `Error: ${error.message}`;
   }

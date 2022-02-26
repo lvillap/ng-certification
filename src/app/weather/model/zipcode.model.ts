@@ -1,3 +1,9 @@
+/**
+ * Encapsulates zip code information
+ *
+ * @export
+ * @class ZipCode
+ */
 export class ZipCode {
 
     value: string;

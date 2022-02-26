@@ -4,6 +4,13 @@ import { ZipCode } from '../../model/zipcode.model';
 import { WeatherService } from '../../services/weather.service';
 import { Condition } from '../../model/condition.model';
 
+/**
+ * Component that renders a card with weather information for a zip code
+ *
+ * @export
+ * @class ZipCodeWeatherCardComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'app-zip-code-weather-card',
   templateUrl: './zip-code-weather-card.component.html',
@@ -19,14 +26,32 @@ export class ZipCodeWeatherCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Returns the name of the weather condition
+   *
+   * @return {*}  {string} name of the condition
+   * @memberof ZipCodeWeatherCardComponent
+   */
   getCurrentConditionText(): string {
-    return Condition[this.weatherInfo?.currentCondition];
+    return this.weatherService.getConditionText(this.weatherInfo?.currentCondition);
   }
 
+  /**
+   * Launches a signal indicating the zip code must be removed
+   *
+   * @memberof ZipCodeWeatherCardComponent
+   */
   emitRemoveZipCode(): void {
     this.removeZipCode.emit(this.weatherInfo?.zipCode);
   }
 
+  /**
+   * Returns the url needed to navigate to the forecast of the zip code
+   *
+   * @param {ZipCode} zipCode to get url to
+   * @return {*}  {string} url to navigate to
+   * @memberof ZipCodeWeatherCardComponent
+   */
   getForecastUrlFor(zipCode: ZipCode): string {
     return `/forecast/${zipCode.value}`;
   }
