@@ -20,7 +20,8 @@ export class OpenWeatherMapService {
     return this.http.get<any[]>(`${OpenWeatherMapService.BASE_URL}`, {
       params: {
         appid: OpenWeatherMapService.API_KEY,
-        zip: `${zipcode.value},es`
+        zip: `${zipcode.value},es`,
+        units: 'metric'
       }
     }).pipe(map(weatherData => this.converToWeatherInfo(zipcode, weatherData)));
   }

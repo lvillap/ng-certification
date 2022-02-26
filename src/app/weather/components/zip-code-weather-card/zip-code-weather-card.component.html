@@ -4,9 +4,9 @@
         <h4>Current conditions: {{ getCurrentConditionText() | titlecase }}</h4>
         <h4>Temperatures today:</h4>
         <p>
-            Current {{ weatherInfo?.temperatures?.current }}
-            - Max {{ weatherInfo?.temperatures?.max }}
-            - Min {{ weatherInfo?.temperatures?.min }}
+            Current {{ weatherInfo?.temperatures?.current }}ºC
+            - Max {{ weatherInfo?.temperatures?.max }}ºC
+            - Min {{ weatherInfo?.temperatures?.min }}ºC
         </p>
         <p>
             <a href="/forecast/95742">Show 5-day forecast for {{ weatherInfo?.location }}</a>
