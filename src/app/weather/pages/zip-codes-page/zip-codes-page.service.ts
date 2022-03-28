@@ -151,6 +151,14 @@ export class ZipCodesPageService {
       `Error: ${error.error.message}` : `Error: ${error.message}`;
   }
 
+  /**
+   * Executes an action, with a delay of 1000 milliseconds, 
+   * enveloping it with changes in the adding state
+   *
+   * @private
+   * @param {() => void} action action to execute
+   * @memberof ZipCodesPageService
+   */
   private withStateRun(action: () => void): void {
     this.addZipStateSubject.next("working");
     setTimeout(() => {

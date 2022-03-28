@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ZipCode } from '../../model/zipcode.model';
 import { Observable, Subscription } from 'rxjs';
@@ -16,7 +16,7 @@ import { OperationState } from 'app/shared/components/state-button/state-button.
   templateUrl: './zip-code-form.component.html',
   styleUrls: ['./zip-code-form.component.css']
 })
-export class ZipCodeFormComponent implements OnInit {
+export class ZipCodeFormComponent implements OnInit, OnDestroy {
 
   @Input() operationState: Observable<OperationState>;
   @Output() addedZipCode = new EventEmitter<ZipCode>();
@@ -61,4 +61,9 @@ export class ZipCodeFormComponent implements OnInit {
   private cleanForm() {
     this.form.reset({ zipCode: '' });
   }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(s => s.unsubscribe());
+  }
+
 }
