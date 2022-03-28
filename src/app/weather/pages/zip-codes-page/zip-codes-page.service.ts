@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, forkJoin, of, tap, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, forkJoin, of, tap, Observable, interval, map } from 'rxjs';
 import { ZipCode } from '../../model/zipcode.model';
 import { ZipCodesLocalstorageService } from '../../services/zip-codes-localstorage.service';
 import { ZipCodesWeatherList } from '../../model/zip-codes-weather-list.model';
@@ -17,11 +17,17 @@ import { WeatherInfo } from '../../model/weather-info.model';
 })
 export class ZipCodesPageService {
 
+  private static readonly MILLISECONDS_IN_A_SECOND = 1000;
+  private static readonly REFRESH_TIME = 30 * ZipCodesPageService.MILLISECONDS_IN_A_SECOND;
+
   private weatherList = new ZipCodesWeatherList();
   zipCodesWeatherInfo = this.weatherList.asObservable();
 
   private errorSubject = new BehaviorSubject<string>("");
   error = this.errorSubject.asObservable();
+
+  private weatherReloader = interval(ZipCodesPageService.REFRESH_TIME).pipe(
+    map(() => this.loadZipCodesAnRetrieveWeather()));
 
   constructor(private openWeatherMapService: OpenWeatherMapService, private zipCodes: ZipCodesLocalstorageService) { }
 
@@ -32,6 +38,7 @@ export class ZipCodesPageService {
    */
   init(): void {
     this.loadZipCodesAnRetrieveWeather();
+    this.weatherReloader.subscribe();
   }
 
   /**
@@ -41,8 +48,7 @@ export class ZipCodesPageService {
    */
   loadZipCodesAnRetrieveWeather() {
     this.weatherList.clear();
-    const allWeatherInfoObservables = this.createObservablesToLoadAllZipCodesWheather();
-    forkJoin(allWeatherInfoObservables).subscribe();
+    this.createObservablesToLoadAllZipCodesWheather().subscribe();
   }
 
   /**
@@ -77,9 +83,10 @@ export class ZipCodesPageService {
    * @return {*}  {Observable<WeatherInfo>[]} list of observables
    * @memberof ZipCodesPageService
    */
-  private createObservablesToLoadAllZipCodesWheather(): Observable<WeatherInfo>[] {
-    return this.zipCodes.getCurrentZipCodes().map(
+  private createObservablesToLoadAllZipCodesWheather(): Observable<WeatherInfo[]> {
+    const allWeatherInfoObservables = this.zipCodes.getCurrentZipCodes().map(
       zipCode => this.addWeatherFor(new ZipCode({ value: zipCode })));
+    return forkJoin(allWeatherInfoObservables);
   }
 
   /**
