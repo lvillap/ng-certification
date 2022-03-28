@@ -8,6 +8,7 @@ import { ZipCodesPageComponent } from './pages/zip-codes-page/zip-codes-page.com
 import { ForecastPageComponent } from './pages/forecast-page/forecast-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Weather2RoutingModule as WeatherRoutingModule } from './weather-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { Weather2RoutingModule as WeatherRoutingModule } from './weather-routing
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
-    WeatherRoutingModule
+    WeatherRoutingModule,
+    SharedModule
   ],
   exports: [
     ZipCodesPageComponent,

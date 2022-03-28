@@ -1,5 +1,8 @@
 <div class="container-fluid">
-    <app-zip-code-form (addedZipCode)="service.registerZipCode($event)"></app-zip-code-form>
+    <app-zip-code-form 
+        (addedZipCode)="service.registerZipCode($event)"
+        [operationState]="service.addZipState">
+    </app-zip-code-form>
     <div class="error well" *ngIf="service.error | async">{{ service.error | async }}</div>
     <app-zip-code-weather-card 
         [weatherInfo]="zipCodeWeatherInfo" 

@@ -5,6 +5,7 @@ import { ZipCodesLocalstorageService } from '../../services/zip-codes-localstora
 import { ZipCodesWeatherList } from '../../model/zip-codes-weather-list.model';
 import { OpenWeatherMapService } from '../../services/open-weather-map.service';
 import { WeatherInfo } from '../../model/weather-info.model';
+import { OperationState } from 'app/shared/components/state-button/state-button.component';
 
 /**
  * Service class that contains the business logic of Zip codes page
@@ -28,6 +29,9 @@ export class ZipCodesPageService {
 
   private weatherReloader = interval(ZipCodesPageService.REFRESH_TIME).pipe(
     map(() => this.loadZipCodesAnRetrieveWeather()));
+
+  private addZipStateSubject = new BehaviorSubject<OperationState>("ready");
+  addZipState = this.addZipStateSubject.asObservable();
 
   constructor(private openWeatherMapService: OpenWeatherMapService, private zipCodes: ZipCodesLocalstorageService) { }
 
@@ -58,10 +62,12 @@ export class ZipCodesPageService {
    * @memberof ZipCodesPageService
    */
   registerZipCode(zipcode: ZipCode): void {
-    if (this.zipCodes.alreadyRegistered(zipcode)) return;
-    this.addWeatherFor(zipcode).subscribe(weatherInfo => {
-      if (!weatherInfo) return;
-      this.zipCodes.add(zipcode);
+    this.withStateRun(() => {
+      if (this.zipCodes.alreadyRegistered(zipcode)) return;
+      this.addWeatherFor(zipcode).subscribe(weatherInfo => {
+        if (!weatherInfo) return;
+        this.zipCodes.add(zipcode);
+      });
     });
   }
 
@@ -143,5 +149,16 @@ export class ZipCodesPageService {
   private getErrorMessage(error: any): string {
     return error.error instanceof ErrorEvent ?
       `Error: ${error.error.message}` : `Error: ${error.message}`;
+  }
+
+  private withStateRun(action: () => void): void {
+    this.addZipStateSubject.next("working");
+    setTimeout(() => {
+      action();
+      this.addZipStateSubject.next("done");
+      setTimeout(() => {
+        this.addZipStateSubject.next("ready");
+      }, 500);
+    }, 1000);
   }
 }

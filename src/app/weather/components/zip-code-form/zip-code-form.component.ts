@@ -1,6 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ZipCode } from '../../model/zipcode.model';
+import { Observable, Subscription } from 'rxjs';
+import { OperationState } from 'app/shared/components/state-button/state-button.component';
 
 /**
  * Component that encapsulates the form to add zip codes
@@ -16,8 +18,10 @@ import { ZipCode } from '../../model/zipcode.model';
 })
 export class ZipCodeFormComponent implements OnInit {
 
+  @Input() operationState: Observable<OperationState>;
   @Output() addedZipCode = new EventEmitter<ZipCode>();
   form: FormGroup;
+  subscriptions: Subscription[] = [];
 
   constructor(private fb: FormBuilder) {
     this.createForm();

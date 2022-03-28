@@ -1,0 +1,5 @@
+<div (click)="sendClick()" [ngClass]="{ disabled: disabled }">
+    <ng-content select="[ready]" *ngIf="stateToShow==='ready'"></ng-content>
+    <ng-content select="[working]" *ngIf="stateToShow==='working'"></ng-content>
+    <ng-content select="[done]" *ngIf="stateToShow==='done'"></ng-content>
+</div>

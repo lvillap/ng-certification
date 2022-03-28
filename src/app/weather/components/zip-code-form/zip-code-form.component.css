@@ -1,0 +1,23 @@
+.ready-button, .adding-button, .done-button {
+    cursor: default;
+    user-select: none;
+    display: inline-block;
+    border-radius: 3px;
+    padding: 6px 12px;
+}
+.ready-button {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    color: white;
+}
+.adding-button {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    color: white;
+    opacity: 0.6;
+}
+.done-button {
+    background-color: #33b750;
+    border-color: #2ea43e;
+    color: white;
+}
