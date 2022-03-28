@@ -2,7 +2,6 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { WeatherInfo } from '../../model/weather-info.model';
 import { ZipCode } from '../../model/zipcode.model';
 import { WeatherService } from '../../services/weather.service';
-import { Condition } from '../../model/condition.model';
 
 /**
  * Component that renders a card with weather information for a zip code
