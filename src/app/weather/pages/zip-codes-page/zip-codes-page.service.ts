@@ -18,19 +18,11 @@ import { OperationState } from 'app/shared/components/state-button/state-button.
 })
 export class ZipCodesPageService {
 
-  private static readonly MILLISECONDS_IN_A_SECOND = 1000;
-  private static readonly REFRESH_TIME = 30 * ZipCodesPageService.MILLISECONDS_IN_A_SECOND;
-
   private weatherList = new ZipCodesWeatherList();
   zipCodesWeatherInfo = this.weatherList.asObservable();
 
   private errorSubject = new BehaviorSubject<string>("");
   error = this.errorSubject.asObservable();
-
-  // TODO Verificar que si no hay suscripciones no sigue buscando
-  
-  private weatherReloader = interval(ZipCodesPageService.REFRESH_TIME).pipe(
-    map(() => this.loadZipCodesAnRetrieveWeather()));
 
   private addZipStateSubject = new BehaviorSubject<OperationState>("ready");
   addZipState = this.addZipStateSubject.asObservable();
@@ -44,7 +36,6 @@ export class ZipCodesPageService {
    */
   init(): void {
     this.loadZipCodesAnRetrieveWeather();
-    this.weatherReloader.subscribe();
   }
 
   /**

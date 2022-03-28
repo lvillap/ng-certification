@@ -18,7 +18,7 @@ import { Item } from 'app/shared/components/autocomplete-input/autocomplete-inpu
   templateUrl: './zip-code-form.component.html',
   styleUrls: ['./zip-code-form.component.css']
 })
-export class ZipCodeFormComponent implements OnInit, OnDestroy {
+export class ZipCodeFormComponent implements OnInit {
 
   allCountries = allCountries;
 
@@ -27,7 +27,6 @@ export class ZipCodeFormComponent implements OnInit, OnDestroy {
   @Input() operationState: Observable<OperationState>;
   @Output() addedZipCode = new EventEmitter<ZipCode>();
   form: FormGroup;
-  subscriptions: Subscription[] = [];
 
   constructor(private fb: FormBuilder) {
     this.createForm();
@@ -69,10 +68,6 @@ export class ZipCodeFormComponent implements OnInit, OnDestroy {
    */
   private cleanForm() {
     this.form.reset({ zipCode: '', countryCode: undefined });
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(s => s.unsubscribe());
   }
 
 }
