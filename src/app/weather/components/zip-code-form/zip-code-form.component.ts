@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ZipCode } from '../../model/zipcode.model';
 import { Observable, Subscription } from 'rxjs';
 import { OperationState } from 'app/shared/components/state-button/state-button.component';
+import { allCountries } from './all-countries';
+import { Item } from 'app/shared/components/autocomplete-input/autocomplete-input.component';
 
 /**
  * Component that encapsulates the form to add zip codes
@@ -17,6 +19,10 @@ import { OperationState } from 'app/shared/components/state-button/state-button.
   styleUrls: ['./zip-code-form.component.css']
 })
 export class ZipCodeFormComponent implements OnInit, OnDestroy {
+
+  allCountries = allCountries;
+
+  country: Item;
 
   @Input() operationState: Observable<OperationState>;
   @Output() addedZipCode = new EventEmitter<ZipCode>();

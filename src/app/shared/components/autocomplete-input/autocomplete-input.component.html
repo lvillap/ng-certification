@@ -1,0 +1,9 @@
+<div class="autocomplete" style="width:300px;">
+    <input #textInput type="text" [placeholder]="placeholder" (input)="autocompleteItems($event)"
+        (keydown)="keyDownOnInput($event)">
+    <div class="autocomplete-items" *ngIf="autocompleting">
+        <div [class]="{ 'autocomplete-active': value === highlightedItem }"
+            *ngFor="let value of filteredValues" [innerHtml]="getRenderedValue(value)"
+            (click)="select(value)"></div>
+    </div>
+</div>

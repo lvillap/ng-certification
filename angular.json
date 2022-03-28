@@ -47,9 +47,12 @@
               "buildOptimizer": true
             },
             "development": {
-              "optimization": false,
-              "sourceMap": true,
               "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
               "serviceWorker": false
             }
           }
@@ -66,7 +69,8 @@
             "development": {
               "browserTarget": "demo:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
