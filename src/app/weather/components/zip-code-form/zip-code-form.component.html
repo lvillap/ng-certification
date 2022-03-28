@@ -4,18 +4,18 @@
     <input formControlName="zipCode" class="form-control" placeholder="Zipcode" type="text" id="addLocation">
     <br>
     <app-state-button [state]="operationState" (clicked)="submitZipCode()" [disabled]="form.invalid">
-        <div ready>
+        <ng-template readyState>
             <div class="ready-button">Add location</div>
-        </div>
-        <div working>
+        </ng-template>
+        <ng-template workingState>
             <div class="adding-button">
                 <img src="assets/icons/loading.gif">
                 Adding ...
             </div>
-        </div>
-        <div done>
+        </ng-template>
+        <ng-template doneState>
             <div class="done-button">Done</div>
-        </div>
+        </ng-template>
     </app-state-button>
 </div>
 </form>

@@ -1,5 +1,8 @@
-import { Component, OnInit, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ContentChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { ReadyStateDirective } from './ready-state.directive';
+import { WorkingStateDirective } from './working-state.directive';
+import { DoneStateDirective } from './done-state.directive';
 
 export type OperationState = "ready" | "working" | "done";
 
@@ -9,6 +12,10 @@ export type OperationState = "ready" | "working" | "done";
   styleUrls: ['./state-button.component.css']
 })
 export class StateButtonComponent implements OnInit {
+
+  @ContentChild(ReadyStateDirective) readyTemplateRef!: ReadyStateDirective;
+  @ContentChild(WorkingStateDirective) workingTemplateRef!: WorkingStateDirective;
+  @ContentChild(DoneStateDirective) doneTemplateRef!: DoneStateDirective;
 
   @Output() clicked = new EventEmitter<void>();
   @Input() disabled = false;

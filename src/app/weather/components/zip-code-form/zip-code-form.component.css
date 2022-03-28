@@ -4,6 +4,8 @@
     display: inline-block;
     border-radius: 3px;
     padding: 6px 12px;
+    min-width: 10rem;
+    text-align: center;
 }
 .ready-button {
     background-color: #337ab7;
@@ -20,4 +22,7 @@
     background-color: #33b750;
     border-color: #2ea43e;
     color: white;
+}
+.adding-button img {
+    height: 16px;
 }
