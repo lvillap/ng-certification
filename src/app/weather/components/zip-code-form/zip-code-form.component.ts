@@ -33,6 +33,8 @@ export class ZipCodeFormComponent implements OnInit, OnDestroy {
     this.createForm();
   }
 
+  // TODO Check funciona required
+
   /**
    * Creates the reactive form to add zip codes
    *
@@ -40,7 +42,8 @@ export class ZipCodeFormComponent implements OnInit, OnDestroy {
    */
   createForm(): void {
     this.form = this.fb.group({
-      zipCode: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]]
+      zipCode: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
+      countryCode: ['', [Validators.required]]
     });
   }
 
@@ -54,7 +57,7 @@ export class ZipCodeFormComponent implements OnInit, OnDestroy {
    */
   submitZipCode(): void {
     const data = this.form.value;
-    this.addedZipCode.emit(new ZipCode({ value: data.zipCode }));
+    this.addedZipCode.emit(new ZipCode(data.zipCode, data.countryCode));
     this.cleanForm();
   }
 
@@ -65,7 +68,7 @@ export class ZipCodeFormComponent implements OnInit, OnDestroy {
    * @memberof ZipCodeFormComponent
    */
   private cleanForm() {
-    this.form.reset({ zipCode: '' });
+    this.form.reset({ zipCode: '', countryCode: undefined });
   }
 
   ngOnDestroy(): void {

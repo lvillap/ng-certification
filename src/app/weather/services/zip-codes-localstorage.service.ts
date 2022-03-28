@@ -12,11 +12,12 @@ import { ZipCode } from '../model/zipcode.model';
 })
 export class ZipCodesLocalstorageService {
 
-  currentZipCodes: string[];
+  currentZipCodes: ZipCode[] = [];
 
   constructor() {
     const localZipCodesData = localStorage.getItem("zip-codes");
-    this.currentZipCodes = !localZipCodesData ? [] : JSON.parse(localZipCodesData) as string[];
+    const rawZipCodesData = !localZipCodesData ? [] : JSON.parse(localZipCodesData) as ZipCode[];
+    this.currentZipCodes = rawZipCodesData.map(data => new ZipCode(data.value, data.country));
   }
 
   /**
@@ -28,7 +29,7 @@ export class ZipCodesLocalstorageService {
    */
   add(zipcode: ZipCode): void {
     if (this.alreadyRegistered(zipcode)) return;
-    this.currentZipCodes.push(zipcode.value);
+    this.currentZipCodes.push(zipcode);
     this.persistToStore();
   }
 
@@ -40,7 +41,7 @@ export class ZipCodesLocalstorageService {
    * @memberof ZipCodesLocalstorageService
    */
   alreadyRegistered(zipcode: ZipCode): boolean {
-    return this.currentZipCodes.indexOf(zipcode.value) !== -1;
+    return this.currentZipCodes.findIndex(z => z.isEqualTo(zipcode)) !== -1;
   }
 
   /**
@@ -51,9 +52,7 @@ export class ZipCodesLocalstorageService {
    * @memberof ZipCodesLocalstorageService
    */
   remove(zipcode: ZipCode): void {
-    const indexOfZipCode = this.currentZipCodes.indexOf(zipcode.value);
-    if (indexOfZipCode === -1) return;
-    this.currentZipCodes.splice(indexOfZipCode, 1);
+    this.currentZipCodes = [ ...this.currentZipCodes.filter(z => !z.isEqualTo(zipcode))];
     this.persistToStore();
   }
 
@@ -63,7 +62,7 @@ export class ZipCodesLocalstorageService {
    * @return {*}  {string[]} array with all zip codes
    * @memberof ZipCodesLocalstorageService
    */
-  getCurrentZipCodes(): string[] {
+  getCurrentZipCodes(): ZipCode[] {
     return [ ...this.currentZipCodes ];
   }
 

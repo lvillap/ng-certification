@@ -53,6 +53,6 @@ export class ZipCodeWeatherCardComponent implements OnInit {
    * @memberof ZipCodeWeatherCardComponent
    */
   getForecastUrlFor(zipCode: ZipCode): string {
-    return `/forecast/${zipCode.value}`;
+    return `/forecast/${zipCode.country}/${zipCode.value}`;
   }
 }

@@ -30,7 +30,7 @@ export class ForecastPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const currentZipCode = this.getZipCodeToShow();
     this.subscribeToChangesInForecast();
-    this.service.init(new ZipCode({ value: currentZipCode }));
+    this.service.init(currentZipCode);
   }
 
   /**
@@ -65,6 +65,7 @@ export class ForecastPageComponent implements OnInit, OnDestroy {
    * @memberof ForecastPageComponent
    */
   private filterRepeatedDays(forecast: WeatherForecast): WeatherForecast {
+    if (!forecast) return new WeatherForecast("", []);
     const filteredList = [];
     let previousDay = undefined;
     forecast.forecasts.forEach(forecast => {
@@ -84,7 +85,8 @@ export class ForecastPageComponent implements OnInit, OnDestroy {
    * @return {*}  {string} zip code to show
    * @memberof ForecastPageComponent
    */
-  private getZipCodeToShow(): string {
-    return this.activatedRoute.snapshot.params['zipcode'];
+  private getZipCodeToShow(): ZipCode {
+    const params = this.activatedRoute.snapshot.params;
+    return new ZipCode(params['zipcode'], params['country']);
   }
 }

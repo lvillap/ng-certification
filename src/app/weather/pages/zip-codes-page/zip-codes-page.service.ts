@@ -27,6 +27,8 @@ export class ZipCodesPageService {
   private errorSubject = new BehaviorSubject<string>("");
   error = this.errorSubject.asObservable();
 
+  // TODO Verificar que si no hay suscripciones no sigue buscando
+  
   private weatherReloader = interval(ZipCodesPageService.REFRESH_TIME).pipe(
     map(() => this.loadZipCodesAnRetrieveWeather()));
 
@@ -90,8 +92,7 @@ export class ZipCodesPageService {
    * @memberof ZipCodesPageService
    */
   private createObservablesToLoadAllZipCodesWheather(): Observable<WeatherInfo[]> {
-    const allWeatherInfoObservables = this.zipCodes.getCurrentZipCodes().map(
-      zipCode => this.addWeatherFor(new ZipCode({ value: zipCode })));
+    const allWeatherInfoObservables = this.zipCodes.getCurrentZipCodes().map(zipCode => this.addWeatherFor(zipCode));
     return forkJoin(allWeatherInfoObservables);
   }
 

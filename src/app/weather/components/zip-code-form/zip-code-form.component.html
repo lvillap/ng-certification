@@ -1,22 +1,23 @@
 <form #zipForm [formGroup]="form" (ngSubmit)="submitZipCode()">
-<div class="well">
-    <h2>Enter a zipcode:</h2>
-    <app-autocomplete-input [items]="allCountries" [(selectedItem)]="country"></app-autocomplete-input>
-    <input formControlName="zipCode" class="form-control" placeholder="Zipcode" type="text" id="addLocation">
-    <br>
-    <app-state-button [state]="operationState" (clicked)="submitZipCode()" [disabled]="form.invalid">
-        <ng-template readyState>
-            <div class="ready-button">Add location</div>
-        </ng-template>
-        <ng-template workingState>
-            <div class="adding-button">
-                <img src="assets/icons/loading.gif">
-                Adding ...
-            </div>
-        </ng-template>
-        <ng-template doneState>
-            <div class="done-button">Done</div>
-        </ng-template>
-    </app-state-button>
-</div>
+    <div class="well">
+        <h2>Enter a zipcode:</h2>
+        <div class="flex">
+            <app-autocomplete-input [items]="allCountries" formControlName="countryCode" [placeholder]="'Country'"></app-autocomplete-input>
+            <input formControlName="zipCode" class="form-control" placeholder="Zipcode" type="text" id="addLocation">
+        </div>
+        <app-state-button [state]="operationState" (clicked)="submitZipCode()" [disabled]="form.invalid">
+            <ng-template readyState>
+                <div class="ready-button">Add location</div>
+            </ng-template>
+            <ng-template workingState>
+                <div class="adding-button">
+                    <img src="assets/icons/loading.gif">
+                    Adding ...
+                </div>
+            </ng-template>
+            <ng-template doneState>
+                <div class="done-button">Done</div>
+            </ng-template>
+        </app-state-button>
+    </div>
 </form>

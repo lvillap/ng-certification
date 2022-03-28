@@ -6,10 +6,10 @@
  */
 export class ZipCode {
 
-    value: string;
+    constructor(public value: string, public country: string) {
+    }
 
-    constructor(object?: any) {
-        if (!object) return;
-        this.value = object.value;
+    isEqualTo(another: ZipCode): boolean {
+        return another && another.value === this.value && another.country === this.country;
     }
 }
