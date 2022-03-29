@@ -144,7 +144,7 @@ export class ZipCodesPageService {
   }
 
   /**
-   * Executes an action, with a delay of 1000 milliseconds, 
+   * Executes an action, with a delay of 1000 milliseconds (to be able to watch state changes), 
    * enveloping it with changes in the adding state
    *
    * @private
