@@ -32,7 +32,8 @@ export class ZipCodeFormComponent implements OnInit {
     this.createForm();
   }
 
-  // TODO Check funciona required
+  ngOnInit(): void {
+  }
 
   /**
    * Creates the reactive form to add zip codes
@@ -41,12 +42,9 @@ export class ZipCodeFormComponent implements OnInit {
    */
   createForm(): void {
     this.form = this.fb.group({
-      zipCode: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
+      zipCode: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
       countryCode: ['', [Validators.required]]
     });
-  }
-
-  ngOnInit(): void {
   }
 
   /**

@@ -36,7 +36,7 @@ export class AutocompleteInputService {
   }
 
   moveSelection(step: number) {
-    this.autoCompleteHighlightedItem = Lists.getNext(this.filteredValues, this.autoCompleteHighlightedItem, step);
+    this.autoCompleteHighlightedItem = Lists.getCircularNext(this.filteredValues, this.autoCompleteHighlightedItem, step);
   }
 
   hasAutoCompleteHighlightedItem() {
