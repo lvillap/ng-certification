@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Item } from 'app/shared/components/autocomplete-input/autocomplete-input.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Lists } from '../../lists/lists';
+import { Item } from './autocomplete-input.component';
 
 @Injectable({
   providedIn: 'root'

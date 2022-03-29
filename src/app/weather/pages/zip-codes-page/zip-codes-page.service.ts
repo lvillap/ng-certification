@@ -5,7 +5,7 @@ import { ZipCodesLocalstorageService } from '../../services/zip-codes-localstora
 import { ZipCodesWeatherList } from '../../model/zip-codes-weather-list.model';
 import { OpenWeatherMapService } from '../../services/open-weather-map.service';
 import { WeatherInfo } from '../../model/weather-info.model';
-import { OperationState } from 'app/shared/components/state-button/state-button.component';
+import { OperationState } from '../../../shared/components/state-button/state-button.component';
 
 /**
  * Service class that contains the business logic of Zip codes page

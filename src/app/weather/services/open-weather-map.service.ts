@@ -62,7 +62,7 @@ export class OpenWeatherMapService {
     return this.http.get<any[]>(`${OpenWeatherMapService.BASE_URL}weather`, {
       params: {
         ...OpenWeatherMapService.DEFAULT_PARAMS,
-        zip: `${zipCode.value},es`,
+        zip: `${zipCode.value},${zipCode.country}`,
       }
     }).pipe(map(data => this.converToWeatherInfo(zipCode, data)));
   }
@@ -78,7 +78,7 @@ export class OpenWeatherMapService {
     return this.http.get<any>(`${OpenWeatherMapService.BASE_URL}forecast`, {
       params: {
         ...OpenWeatherMapService.DEFAULT_PARAMS,
-        zip: `${zipCode.value},es`,
+        zip: `${zipCode.value},${zipCode.country}`,
       }
     }).pipe(map(data => this.converListOfWeatherForecasts(zipCode, data)));
   }

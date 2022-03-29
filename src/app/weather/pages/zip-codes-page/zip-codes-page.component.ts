@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ZipCodesPageService } from './zip-codes-page.service';
 import { interval, Subscription, map } from 'rxjs';
-import { OperationState } from 'app/shared/components/state-button/state-button.component';
+import { OperationState } from '../../../shared/components/state-button/state-button.component';
 
 /**
  * Component that encapsulates the page where zip codes are managed
