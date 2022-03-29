@@ -26,3 +26,9 @@
 .adding-button img {
     height: 16px;
 }
+.form {
+    display: flex;
+    flex-direction: row;
+    max-width: 50%;
+    padding-bottom: 1rem;
+}
